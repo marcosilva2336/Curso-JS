@@ -1,1 +1,1 @@
-# Exerc-cios-CursoJs-
+# Atividades do Curso de JS
