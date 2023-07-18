@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <title>Catálogo de Filmes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #F3F3F3;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 1em;
+        }
+
+        .movie-card {
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            margin: 1rem;
+            width: 300px;
+            transition: transform .3s;
+            cursor: pointer;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.03);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .movie-card .title {
+            padding: 1rem;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .movie-card .description {
+            padding: 1rem;
+            font-size: 1em;
+            display: none;
+        }
+
+        .movie-card.active .description {
+            display: block;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">Catálogo de Filmes</div>
+    <div class="container"></div>
+    <div class="footer">© 2023 Catálogo de Filmes</div>
+
+    <script>
+        fetch('https://api.themoviedb.org/3/movie/popular?api_key=506fadb0256c13349acc05dabebf9604&language=en-US&page=1', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(function (json) {
+            var container = document.querySelector('.container');
+
+            json.results.map(function (val) {
+                var movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+                movieCard.innerHTML = `
+                    <img src="https://image.tmdb.org/t/p/w500/${val.poster_path}" alt="${val.title}" />
+                    <div class="title">${val.title}</div>
+                    <div class="description">${val.overview}</div>
+                `;
+
+                movieCard.addEventListener('click', function () {
+                    this.classList.toggle('active');
+                });
+
+                container.appendChild(movieCard);
+            });
+        })
+    </script>
+</body>
+
+</html>
